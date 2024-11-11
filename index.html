@@ -190,6 +190,7 @@
       AFRAME.registerComponent('trigger-animation-on-click', {
   init: function () {
     const button1 = document.querySelector("#animatedButton1");
+    const button2 = document.querySelector("#animatedButton2");
     const animatedImage = document.querySelector("#animatedImage");
 
     // Add click event listener to button1 to start animation on the image
@@ -202,6 +203,10 @@
         autoplay: true  // Trigger immediately when clicked
       });
     });
+
+    button2.addEventListener('click', () => {
+        window.open("https://www.simplychocolate.com", "_blank");
+      });
   }
 });
 
