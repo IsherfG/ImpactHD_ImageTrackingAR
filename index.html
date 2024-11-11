@@ -58,106 +58,154 @@
     <script>
       // Component to trigger animations when the target is found
       AFRAME.registerComponent('animation-trigger', {
-  init: function () {
-    this.el.addEventListener('targetFound', () => {
-      // Get the video element and play it if paused
-      const video = document.querySelector("#portfolioVideo");
-      if (video.paused) {
-        video.play(); // Autoplay video on target detection
-      }
-
-      // Animate video position
-      document.querySelector("#animatedVideo").setAttribute("animation", {
-        property: "position",
-        to: "0 0.5 0",
-        easing: "easeOutQuad",
-        dur: 1000,
-        delay: 500
-      });
-
-      // Animate image position
-      document.querySelector("#animatedImage").setAttribute("animation", {
-        property: "position",
-        to: "1 -0.7 0",
-        easing: "easeOutQuad",
-        dur: 1000,
-        delay: 1000
-      });
-
-      // Animate button1 position
-      document.querySelector("#animatedButton1").setAttribute("animation", {
-        property: "position",
-        to: "0 -0.5 0.1",
-        easing: "easeOutQuad",
-        dur: 1000,
-        delay: 1500
-      });
-
-      // Animate button2 position
-      document.querySelector("#animatedButton2").setAttribute("animation", {
-        property: "position",
-        to: "0 -1 0.1",
-        easing: "easeOutQuad",
-        dur: 1000,
-        delay: 2000
-      });
-
-      // Animate text positions
-      document.querySelector("#animatedText1").setAttribute("animation", {
-        property: "position",
-        to: "0 1 0",
-        easing: "easeOutQuad",
-        dur: 1000,
-        delay: 2500
-      });
-      document.querySelector("#animatedText2").setAttribute("animation", {
-        property: "position",
-        to: "1 -0.5 0.2",
-        easing: "easeOutQuad",
-        dur: 1000,
-        delay: 3000
-      });
-      document.querySelector("#animatedText3").setAttribute("animation", {
-        property: "position",
-        to: "0 -1 0",
-        easing: "easeOutQuad",
-        dur: 1000,
-        delay: 3500
-      });
-    });
-
-    this.el.addEventListener('targetLost', () => {
-      // Reset video and element positions when target is lost
-      document.querySelector("#animatedVideo").setAttribute("position", "-10 0.5 0");
-      document.querySelector("#animatedImage").setAttribute("position", "-10 -0.7 0");
-      document.querySelector("#animatedButton1").setAttribute("position", "-10 -0.5 0.1");
-      document.querySelector("#animatedButton2").setAttribute("position", "-10 -1 0.1");
-      document.querySelector("#animatedText1").setAttribute("position", "-10 1 0");
-      document.querySelector("#animatedText2").setAttribute("position", "-10 -0.5 0.2");
-      document.querySelector("#animatedText3").setAttribute("position", "-10 -1 0");
-    });
-  }
-});
-      
-
-      AFRAME.registerComponent('play-video-audio-on-click', {
     init: function () {
       const video = document.querySelector("#portfolioVideo");
+      const audio = document.querySelector("#bunnyAudio");
+      
+      // Predefine initial positions to reset later
+      const initialPositions = {
+        video: "-10 0.5 0",
+        image: "-10 -0.7 0",
+        button1: "-10 -0.5 0.1",
+        button2: "-10 -1 0.1",
+        text1: "-10 1 0",
+        text2: "-10 -0.5 0.2",
+        text3: "-10 -1 0"
+      };
 
-      // Play video when the user clicks anywhere on the page
-      document.body.addEventListener('click', () => {
-        if (video.paused) {
-          video.play();
-        }
+      this.el.addEventListener('targetFound', () => {
+        // Play video and audio when target is detected
+        if (video.paused) video.play();
+
+        // Reset video position and animate it
+        document.querySelector("#animatedVideo").setAttribute("position", initialPositions.video);
+        document.querySelector("#animatedVideo").setAttribute("animation", {
+          property: "position",
+          to: "0 0.5 0",
+          easing: "easeOutQuad",
+          dur: 1000,
+          delay: 500
+        });
+
+        // Set up animations for each element
+        document.querySelector("#animatedImage").setAttribute("position", initialPositions.image);
+
+        document.querySelector("#animatedButton1").setAttribute("position", initialPositions.button1);
+        document.querySelector("#animatedButton1").setAttribute("animation", {
+          property: "position",
+          to: "0 -0.5 0.1",
+          easing: "easeOutQuad",
+          dur: 1000,
+          delay: 1500
+        });
+
+        document.querySelector("#animatedButton2").setAttribute("position", initialPositions.button2);
+        document.querySelector("#animatedButton2").setAttribute("animation", {
+          property: "position",
+          to: "0 -1 0.1",
+          easing: "easeOutQuad",
+          dur: 1000,
+          delay: 2000
+        });
+
+        document.querySelector("#animatedText1").setAttribute("position", initialPositions.text1);
+        document.querySelector("#animatedText1").setAttribute("animation", {
+          property: "position",
+          to: "0 1 0",
+          easing: "easeOutQuad",
+          dur: 1000,
+          delay: 2500
+        });
+
+        document.querySelector("#animatedText2").setAttribute("position", initialPositions.text2);
+        document.querySelector("#animatedText2").setAttribute("animation", {
+          property: "position",
+          to: "1 -0.5 0.2",
+          easing: "easeOutQuad",
+          dur: 1000,
+          delay: 3000
+        });
+
+        document.querySelector("#animatedText3").setAttribute("position", initialPositions.text3);
+        document.querySelector("#animatedText3").setAttribute("animation", {
+          property: "position",
+          to: "0 -1 0",
+          easing: "easeOutQuad",
+          dur: 1000,
+          delay: 3500
+        });
+      });
+
+      this.el.addEventListener('targetLost', () => {
+        // Stop and reset video and audio when the target is lost
+        video.pause();
+        video.currentTime = 0;
+        audio.pause();
+        audio.currentTime = 0;
+
+        // Reset each element’s position to be off-screen, ready for the next detection
+        document.querySelector("#animatedVideo").setAttribute("position", initialPositions.video);
+        document.querySelector("#animatedImage").setAttribute("position", initialPositions.image);
+        document.querySelector("#animatedButton1").setAttribute("position", initialPositions.button1);
+        document.querySelector("#animatedButton2").setAttribute("position", initialPositions.button2);
+        document.querySelector("#animatedText1").setAttribute("position", initialPositions.text1);
+        document.querySelector("#animatedText2").setAttribute("position", initialPositions.text2);
+        document.querySelector("#animatedText3").setAttribute("position", initialPositions.text3);
+
+        // Reset animations to ensure they play again when the target is refound
+        const animatedElements = [
+          "#animatedVideo",
+          "#animatedImage",
+          "#animatedButton1",
+          "#animatedButton2",
+          "#animatedText1",
+          "#animatedText2",
+          "#animatedText3"
+        ];
+        animatedElements.forEach(selector => {
+          const element = document.querySelector(selector);
+          element.removeAttribute("animation");  // Remove any active animations
+        });
       });
     }
   });
 
-  
-
+  // Component to play video and audio on click for cross-browser support
     
+      // Component to play audio on user click
+      AFRAME.registerComponent('play-audio-on-click', {
+        init: function () {
+          const audio = document.querySelector("#bunnyAudio");
+    
+          // Play audio on any click on the page
+          document.body.addEventListener('click', () => {
+            if (audio.paused) {
+              audio.currentTime = 0; // Reset to the start
+              audio.play();
+            }
+          });
+        }
+      });
+    
+      AFRAME.registerComponent('trigger-animation-on-click', {
+  init: function () {
+    const button1 = document.querySelector("#animatedButton1");
+    const animatedImage = document.querySelector("#animatedImage");
 
-      AFRAME.registerComponent('sequence-animation', {
+    // Add click event listener to button1 to start animation on the image
+    button1.addEventListener('click', () => {
+      animatedImage.setAttribute("animation", {
+        property: "position",
+        to: "1 -0.7 0",  // Move image to the right only on button click
+        easing: "easeOutQuad",
+        dur: 1000,
+        autoplay: true  // Trigger immediately when clicked
+      });
+    });
+  }
+});
+
+AFRAME.registerComponent('sequence-animation', {
         init: function () {
           const model = this.el.querySelector('a-gltf-model');
           const animations = ['Waving', 'Happy', 'Running'];
@@ -174,53 +222,21 @@
         }
       });
 
-
-  // Component to play audio on user click
-  AFRAME.registerComponent('play-audio-on-click', {
-    init: function () {
-      const audio = document.querySelector("#bunnyAudio");
-
-      // Play audio on any click on the page
-      document.body.addEventListener('click', () => {
-        if (audio.paused) {
-          audio.currentTime = 0; // Reset to the start
-          audio.play();
-        }
-      });
-    }
-  });
-
-
-  AFRAME.registerComponent('trigger-animation-on-click', {
-    init: function () {
-      const button1 = document.querySelector("#animatedButton1");
-      const button2 = document.querySelector("#animatedButton2");
-      const animatedImage = document.querySelector("#animatedImage");
-
-      // Add click event listener to button1 to start animation
-      button1.addEventListener('click', () => {
-        animatedImage.setAttribute("animation", "autoplay", "true");
-      });
-
-      // Add click event listener to button2 to redirect to Simply Chocolate website
-      button2.addEventListener('click', () => {
-        window.open("https://www.simplychocolate.com", "_blank");
-      });
-    }
-  });
-
-  // Attach the component to the scene or target entity
-  document.querySelector("#videoTarget").setAttribute("trigger-animation-on-click", "");
-
-  // Attach the audio component to the entity with targetIndex: 0
-  document.querySelector('#animatedModel').setAttribute('play-audio-on-target', '');
-
+    
+      // Attach the component to the scene or target entity
+      document.querySelector("#videoTarget").setAttribute("trigger-animation-on-click", "");
+    
+      // Attach the audio component to the entity with targetIndex: 0
+      document.querySelector('#animatedModel').setAttribute('play-audio-on-target', '');
+    
       // Attach the component to the entity containing Bunny model
       document.querySelector('#animatedModel').setAttribute('sequence-animation', '');
-
+    
       // Attach components to relevant entities
       document.querySelector('a-scene').setAttribute('play-video-audio-on-click', '');
 
+      document.querySelector("#videoTarget").setAttribute("animation-trigger", "");
+    
     </script>
   </body>
 </html>
