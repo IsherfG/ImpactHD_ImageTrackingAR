@@ -11,8 +11,10 @@
         <a-asset-item id="customModel" src="./Bunny.glb"></a-asset-item>
         <a-asset-item id="chocoModel" src="./Choco.glb"></a-asset-item>
         <a-asset-item id="signModel" src="./Sign.glb"></a-asset-item>
-        <video id="portfolioVideo" src="./video.mp4" loop="true" crossorigin="anonymous"></video>
+        <video id="portfolioVideo" src="./portfolio.mp4" autoplay loop="true" crossorigin="anonymous" playsinline></video>
         <img id="portfolioImage1" src="./image1.png" />
+        <img id="button1" src="./NameBack1.png" />
+        <img id="button2" src="./NameBack2.png" />
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -30,10 +32,15 @@
         <a-video src="#portfolioVideo" position="0 0.5 0" rotation="0 0 0" scale="1 0.5 1"></a-video>
         
         <!-- Image elements -->
-        <a-image src="#portfolioImage1" position="-0.6 0.2 0" rotation="0 0 0" scale="0.5 0.5 0.5"></a-image>
+        <a-image src="#portfolioImage1" position="1 -0.7 0" rotation="0 0 0" scale="1.2 1.5 1"></a-image>
+        <a-image src="#button1" position="0 -0.5 0.1" rotation="0 0 0" scale="0.5 0.2 1"></a-image>
+        <a-image src="#button2" position="0 -1 0.1" rotation="0 0 0" scale="0.5 0.2 1"></a-image>
+
         
         <!-- Optionally, add a title or text -->
-        <a-text value="My Portfolio" color="#FFFFFF" position="0 1 0" align="center"></a-text>
+        <a-text value="Luxury Chocolate" color="#FFFFFF" position="0 1 0" align="center"></a-text>
+        <a-text value="詳細" color="#FFFFFF" position="1 -0.5 0.2" align="center"></a-text>
+        <a-text value="ウェブサイト" color="#FFFFFF" position="0 -1 0." align="center"></a-text>
       </a-entity>
     </a-scene>
 
