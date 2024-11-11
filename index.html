@@ -6,38 +6,48 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene mindar-image="imageTargetSrc: ./targets 5.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
         <a-asset-item id="customModel" src="./Bunny.glb"></a-asset-item>
         <a-asset-item id="spam" src="./spam.glb"></a-asset-item>
         <a-asset-item id="chocoModel" src="./Choco.glb"></a-asset-item>
         <a-asset-item id="signModel" src="./Sign.glb"></a-asset-item>
-        <video id="portfolioVideo" src="./video.mp4" crossorigin="anonymous" playsinline></video>
+        <video id="portfolioVideo" src="./video.mp4" crossorigin="anonymous" playsinline muted autoplay></video>
         <img id="portfolioImage1" src="./image1.png" />
         <img id="button1" src="./NameBack1.png" />
         <img id="button2" src="./NameBack2.png" />
         <audio id="bunnyAudio" src="./music.mp3" crossorigin="anonymous"></audio>
       </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false" raycaster="objects: .clickable"></a-camera>
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: 10000; objects: .clickable">
+      </a-camera>
 
       <!-- Existing model setup for targetIndex: 0 -->
       <a-entity id="animatedModel" mindar-image-target="targetIndex: 0">
-        <a-gltf-model id="bunnyModel" src="#customModel" position="0 -0.25 0" scale="0.1 0.1 0.1" rotation="0 0 0" animation-mixer="clip: Waving; loop: once"></a-gltf-model>
-        <a-gltf-model src="#chocoModel" position="0 -0.25 0.3" scale="0.75 0.75 0.75" rotation="0 0 0"></a-gltf-model>
-        <a-gltf-model src="#signModel" position="0 0.7 0" scale="0.07 0.07 0.07" rotation="0 0 0"></a-gltf-model>
+        <a-gltf-model id="bunnyModel" src="#customModel" position="0 -0.9 0" scale="0.2 0.2 0.2" rotation="0 0 0" animation-mixer="clip: Waving; loop: once"></a-gltf-model>
+        <a-gltf-model src="#chocoModel" position="0 -0.9 0.3" scale="1.5 1.5 1.5" rotation="0 0 0"></a-gltf-model>
+        <a-gltf-model src="#signModel" position="0 0.9 -0.1" scale="0.1 0.1 0.1" rotation="0 0 0"></a-gltf-model>
       </a-entity>
 
-      <!-- New media setup for targetIndex: 1 with animations -->
-      <a-entity mindar-image-target="targetIndex: 1" id="videoTarget" animation-trigger>
-        <a-video id="animatedVideo" src="#portfolioVideo" position="-10 0.5 0" rotation="0 0 0" scale="1 0.5 1"></a-video>
-        <a-image id="animatedImage" src="#portfolioImage1" position="-10 -0.7 0" rotation="0 0 0" scale="1.2 1.5 1"></a-image>
-        <a-image id="animatedButton1" src="#button1" position="-10 -0.5 0.1" rotation="0 0 0" scale="0.5 0.2 1"></a-image>
-        <a-image id="animatedButton2" src="#button2" position="-10 -1 0.1" rotation="0 0 0" scale="0.5 0.2 1"></a-image>
-        <a-text id="animatedText1" value="Luxury Chocolate" color="#FFFFFF" position="-10 1 0" align="center"></a-text>
-        <a-text id="animatedText2" value="詳細" color="#FFFFFF" position="-10 -0.5 0.2" align="center"></a-text>
-        <a-text id="animatedText3" value="ウェブサイト" color="#FFFFFF" position="-10 -1 0" align="center"></a-text>
-      </a-entity>
+<!-- New media setup for targetIndex: 1 with animations and clickable buttons -->
+<a-entity mindar-image-target="targetIndex: 1" id="videoTarget" animation-trigger>
+  <a-video id="animatedVideo" src="#portfolioVideo" position="-10 0.5 0" rotation="0 0 0" scale="1 0.5 1"></a-video>
+
+  <!-- animatedImage with animation component but autoplay disabled -->
+  <a-image id="animatedImage" src="#portfolioImage1" position="-10 -0.7 0" rotation="0 0 0" scale="1.2 1.5 1"
+           animation="property: position; to: 1 -0.7 0; easing: easeOutQuad; dur: 1000; autoplay: false">
+  </a-image>
+
+  <!-- button1 with click event to trigger animatedImage animation -->
+  <a-image id="animatedButton1" src="#button1" position="-10 -0.5 0.1" rotation="0 0 0" scale="0.5 0.2 1" class="clickable">
+  </a-image>
+
+  <a-image id="animatedButton2" src="#button2" position="-10 -1 0.1" rotation="0 0 0" scale="0.5 0.2 1" class="clickable"></a-image>
+
+  <a-text id="animatedText1" value="Luxury Chocolate" color="#FFFFFF" position="-10 1 0" align="center"></a-text>
+  <a-text id="animatedText2" value="詳細" color="#FFFFFF" position="-10 -0.5 0.2" align="center"></a-text>
+  <a-text id="animatedText3" value="ウェブサイト" color="#FFFFFF" position="-10 -1 0" align="center"></a-text>
+</a-entity>
 
       <a-entity mindar-image-target="targetIndex: 2">
         <a-gltf-model src="#spam" position="0 0 0" scale="0.5 0.5 0.5" rotation="0 180 0"></a-gltf-model>
@@ -74,58 +84,20 @@
 
       
 
-      AFRAME.registerComponent('play-audio-on-target', {
-        init: function () {
-          const audio = document.querySelector("#bunnyAudio");
-          
-          this.el.addEventListener("targetFound", () => {
-            audio.play();
-          });
+      AFRAME.registerComponent('play-video-audio-on-click', {
+    init: function () {
+      const video = document.querySelector("#portfolioVideo");
 
-          this.el.addEventListener("targetLost", () => {
-            audio.pause();
-            audio.currentTime = 0; // Reset the audio to the beginning
-          });
+      // Play video when the user clicks anywhere on the page
+      document.body.addEventListener('click', () => {
+        if (video.paused) {
+          video.play();
         }
       });
+    }
+  });
 
-      // Register a component to control video playback based on tracking events
-      AFRAME.registerComponent('play-video-on-target', {
-        init: function () {
-          const video = document.querySelector("#portfolioVideo");
-          
-          this.el.addEventListener("targetFound", () => {
-            video.play();
-            // Enable click-to-redirect when target is found
-            document.querySelector('a-scene').setAttribute('click-to-redirect', 'url: https://www.google.com');
-          });
-
-          this.el.addEventListener("targetLost", () => {
-            video.pause();
-            // Disable click-to-redirect when target is lost
-            document.querySelector('a-scene').removeAttribute('click-to-redirect');
-          });
-        }
-      });
-
-      // Component to handle redirection on click
-      AFRAME.registerComponent('click-to-redirect', {
-        schema: {
-          url: {type: 'string', default: ''}
-        },
-        init: function () {
-          this.onClick = this.onClick.bind(this);
-          this.el.addEventListener('click', this.onClick);
-        },
-        onClick: function () {
-          if (this.data.url) {
-            window.open(this.data.url, '_blank');
-          }
-        },
-        remove: function () {
-          this.el.removeEventListener('click', this.onClick);
-        }
-      });
+    
 
       AFRAME.registerComponent('sequence-animation', {
         init: function () {
@@ -144,13 +116,53 @@
         }
       });
 
+
+  // Component to play audio on user click
+  AFRAME.registerComponent('play-audio-on-click', {
+    init: function () {
+      const audio = document.querySelector("#bunnyAudio");
+
+      // Play audio on any click on the page
+      document.body.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.currentTime = 0; // Reset to the start
+          audio.play();
+        }
+      });
+    }
+  });
+
+
+  AFRAME.registerComponent('trigger-animation-on-click', {
+    init: function () {
+      const button1 = document.querySelector("#animatedButton1");
+      const button2 = document.querySelector("#animatedButton2");
+      const animatedImage = document.querySelector("#animatedImage");
+
+      // Add click event listener to button1 to start animation
+      button1.addEventListener('click', () => {
+        animatedImage.setAttribute("animation", "autoplay", "true");
+      });
+
+      // Add click event listener to button2 to redirect to Simply Chocolate website
+      button2.addEventListener('click', () => {
+        window.open("https://www.simplychocolate.com", "_blank");
+      });
+    }
+  });
+
+  // Attach the component to the scene or target entity
+  document.querySelector("#videoTarget").setAttribute("trigger-animation-on-click", "");
+
+  // Attach the audio component to the entity with targetIndex: 0
+  document.querySelector('#animatedModel').setAttribute('play-audio-on-target', '');
+
       // Attach the component to the entity containing Bunny model
       document.querySelector('#animatedModel').setAttribute('sequence-animation', '');
 
       // Attach components to relevant entities
-      document.querySelector("#videoTarget").setAttribute("play-video-on-target", "");
+      document.querySelector('a-scene').setAttribute('play-video-audio-on-click', '');
 
-      document.querySelector("#bunnyTarget").setAttribute("play-audio-on-target", "");
     </script>
   </body>
 </html>
