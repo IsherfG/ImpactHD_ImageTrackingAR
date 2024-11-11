@@ -13,15 +13,18 @@
         <a-asset-item id="signModel" src="./Sign.glb"></a-asset-item>
       </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      <!-- Add cursor to the camera -->
+      <a-camera position="0 0 0" look-controls="enabled: false">
+        <a-cursor></a-cursor>
+      </a-camera>
 
       <a-entity id="animatedModel" mindar-image-target="targetIndex: 0">
         <a-gltf-model id="bunnyModel" src="#customModel" position="0 -0.25 0" scale="0.1 0.1 0.1" rotation="0 0 0" animation-mixer="clip: Waving; loop: once"></a-gltf-model>
         <a-gltf-model src="#chocoModel" position="0 -0.25 0.3" scale="0.75 0.75 0.75" rotation="0 0 0"></a-gltf-model>
         <a-gltf-model src="#signModel" position="0 0.7 0" scale="0.07 0.07 0.07" rotation="0 0 0"></a-gltf-model>
-        
+
         <!-- Floating button near the model -->
-        <a-plane id="stopButton" position="0.3 -0.1 0" width="0.1" height="0.1" color="#FF0000" clickable></a-plane>
+        <a-plane id="stopButton" position="0.3 -0.1 0" width="0.1" height="0.1" color="#FF0000"></a-plane>
       </a-entity>
     </a-scene>
 
@@ -29,6 +32,7 @@
       AFRAME.registerComponent('sequence-animation', {
         init: function () {
           const model = this.el.querySelector('#bunnyModel');
+          const stopButton = document.querySelector('#stopButton');
           const animations = ['Waving', 'Happy', 'Running'];
           let currentAnimation = 0;
           let animationPlaying = true;
@@ -43,14 +47,13 @@
             }
           });
 
-          // Stop animation when clicking the button
-          document.querySelector('#stopButton').addEventListener('click', () => {
+          // Toggle animation when clicking the button
+          stopButton.addEventListener('click', () => {
             animationPlaying = !animationPlaying;
             if (!animationPlaying) {
               model.removeAttribute('animation-mixer'); // Stop animation
             } else {
-              // Restart animation
-              model.setAttribute('animation-mixer', `clip: ${animations[currentAnimation]}; loop: once`);
+              model.setAttribute('animation-mixer', `clip: ${animations[currentAnimation]}; loop: once`); // Resume animation
             }
           });
         }
