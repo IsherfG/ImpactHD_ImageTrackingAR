@@ -11,21 +11,29 @@
         <a-asset-item id="customModel" src="./Bunny.glb"></a-asset-item>
         <a-asset-item id="chocoModel" src="./Choco.glb"></a-asset-item>
         <a-asset-item id="signModel" src="./Sign.glb"></a-asset-item>
+        <video id="portfolioVideo" src="./video.mp4" loop="true" crossorigin="anonymous"></video>
+        <img id="portfolioImage1" src="./image1.png" />
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+      <!-- Existing model setup for targetIndex: 0 -->
       <a-entity id="animatedModel" mindar-image-target="targetIndex: 0">
         <a-gltf-model id="bunnyModel" src="#customModel" position="0 -0.25 0" scale="0.1 0.1 0.1" rotation="0 0 0" animation-mixer="clip: Waving; loop: once"></a-gltf-model>
         <a-gltf-model src="#chocoModel" position="0 -0.25 0.3" scale="0.75 0.75 0.75" rotation="0 0 0"></a-gltf-model>
         <a-gltf-model src="#signModel" position="0 0.7 0" scale="0.07 0.07 0.07" rotation="0 0 0"></a-gltf-model>
-        
       </a-entity>
-      <a-entity id="animatedModel" mindar-image-target="targetIndex: 1">
-        <a-gltf-model id="bunnyModel" src="#customModel" position="0 -0.25 0" scale="0.1 0.1 0.1" rotation="0 0 0" animation-mixer="clip: Waving; loop: once"></a-gltf-model>
-        <a-gltf-model src="#chocoModel" position="0 -0.25 0.3" scale="0.75 0.75 0.75" rotation="0 0 0"></a-gltf-model>
-        <a-gltf-model src="#signModel" position="0 0.7 0" scale="0.07 0.07 0.07" rotation="0 0 0"></a-gltf-model>
+
+      <!-- New media setup for targetIndex: 1 -->
+      <a-entity mindar-image-target="targetIndex: 1">
+        <!-- Video element -->
+        <a-video src="#portfolioVideo" position="0 0.5 0" rotation="0 0 0" scale="1 0.5 1"></a-video>
         
+        <!-- Image elements -->
+        <a-image src="#portfolioImage1" position="-0.6 0.2 0" rotation="0 0 0" scale="0.5 0.5 0.5"></a-image>
+        
+        <!-- Optionally, add a title or text -->
+        <a-text value="My Portfolio" color="#FFFFFF" position="0 1 0" align="center"></a-text>
       </a-entity>
     </a-scene>
 
@@ -37,7 +45,6 @@
           let currentAnimation = 0;
           let animationPlaying = true;
 
-          // Start the first animation
           model.setAttribute('animation-mixer', `clip: ${animations[currentAnimation]}; loop: once`);
 
           model.addEventListener('animation-finished', () => {
@@ -47,20 +54,17 @@
             }
           });
 
-          // Stop animation when clicking the button
           document.querySelector('#stopButton').addEventListener('click', () => {
             animationPlaying = !animationPlaying;
             if (!animationPlaying) {
-              model.removeAttribute('animation-mixer'); // Stop animation
+              model.removeAttribute('animation-mixer');
             } else {
-              // Restart animation
               model.setAttribute('animation-mixer', `clip: ${animations[currentAnimation]}; loop: once`);
             }
           });
         }
       });
 
-      // Attach the component to the entity containing Bunny model
       document.querySelector('#animatedModel').setAttribute('sequence-animation', '');
     </script>
   </body>
