@@ -31,7 +31,7 @@
 
 <!-- New media setup for targetIndex: 1 with animations and clickable buttons -->
 <a-entity mindar-image-target="targetIndex: 1" id="videoTarget" animation-trigger>
-  <a-video id="animatedVideo" src="#portfolioVideo" position="-10 0.5 0" rotation="0 0 0" scale="1 0.5 1"></a-video>
+  <a-video id="animatedVideo" src="#portfolioVideo" position="-10 0.5 0" rotation="0 0 0" scale="1 0.5 1" muted autoplay></a-video>
 
   <!-- animatedImage with animation component but autoplay disabled -->
   <a-image id="animatedImage" src="#portfolioImage1" position="-10 -0.7 0" rotation="0 0 0" scale="1.2 1.5 1"
@@ -50,7 +50,7 @@
 </a-entity>
 
       <a-entity mindar-image-target="targetIndex: 2">
-        <a-gltf-model src="#spam" position="0 0 0" scale="0.5 0.5 0.5" rotation="0 180 0"></a-gltf-model>
+        <a-gltf-model src="#spam" position="0 0 0" scale="0.5 0.5 0.5" rotation="0 180 180"></a-gltf-model>
       </a-entity>
     </a-scene>
     </a-scene>
@@ -58,30 +58,86 @@
     <script>
       // Component to trigger animations when the target is found
       AFRAME.registerComponent('animation-trigger', {
-        init: function () {
-          this.el.addEventListener('targetFound', () => {
-            document.querySelector("#animatedVideo").setAttribute("animation", "property: position; to: 0 0.5 0; easing: easeOutQuad; dur: 1000; delay: 500");
-            document.querySelector("#animatedImage").setAttribute("animation", "property: position; to: 1 -0.7 0; easing: easeOutQuad; dur: 1000; delay: 1000");
-            document.querySelector("#animatedButton1").setAttribute("animation", "property: position; to: 0 -0.5 0.1; easing: easeOutQuad; dur: 1000; delay: 1500");
-            document.querySelector("#animatedButton2").setAttribute("animation", "property: position; to: 0 -1 0.1; easing: easeOutQuad; dur: 1000; delay: 2000");
-            document.querySelector("#animatedText1").setAttribute("animation", "property: position; to: 0 1 0; easing: easeOutQuad; dur: 1000; delay: 2500");
-            document.querySelector("#animatedText2").setAttribute("animation", "property: position; to: 1 -0.5 0.2; easing: easeOutQuad; dur: 1000; delay: 3000");
-            document.querySelector("#animatedText3").setAttribute("animation", "property: position; to: 0 -1 0; easing: easeOutQuad; dur: 1000; delay: 3500");
-          });
+  init: function () {
+    this.el.addEventListener('targetFound', () => {
+      // Get the video element and play it if paused
+      const video = document.querySelector("#portfolioVideo");
+      if (video.paused) {
+        video.play(); // Autoplay video on target detection
+      }
 
-          this.el.addEventListener('targetLost', () => {
-            // Reset positions if needed
-            document.querySelector("#animatedVideo").setAttribute("position", "-10 0.5 0");
-            document.querySelector("#animatedImage").setAttribute("position", "-10 -0.7 0");
-            document.querySelector("#animatedButton1").setAttribute("position", "-10 -0.5 0.1");
-            document.querySelector("#animatedButton2").setAttribute("position", "-10 -1 0.1");
-            document.querySelector("#animatedText1").setAttribute("position", "-10 1 0");
-            document.querySelector("#animatedText2").setAttribute("position", "-10 -0.5 0.2");
-            document.querySelector("#animatedText3").setAttribute("position", "-10 -1 0");
-          });
-        }
+      // Animate video position
+      document.querySelector("#animatedVideo").setAttribute("animation", {
+        property: "position",
+        to: "0 0.5 0",
+        easing: "easeOutQuad",
+        dur: 1000,
+        delay: 500
       });
 
+      // Animate image position
+      document.querySelector("#animatedImage").setAttribute("animation", {
+        property: "position",
+        to: "1 -0.7 0",
+        easing: "easeOutQuad",
+        dur: 1000,
+        delay: 1000
+      });
+
+      // Animate button1 position
+      document.querySelector("#animatedButton1").setAttribute("animation", {
+        property: "position",
+        to: "0 -0.5 0.1",
+        easing: "easeOutQuad",
+        dur: 1000,
+        delay: 1500
+      });
+
+      // Animate button2 position
+      document.querySelector("#animatedButton2").setAttribute("animation", {
+        property: "position",
+        to: "0 -1 0.1",
+        easing: "easeOutQuad",
+        dur: 1000,
+        delay: 2000
+      });
+
+      // Animate text positions
+      document.querySelector("#animatedText1").setAttribute("animation", {
+        property: "position",
+        to: "0 1 0",
+        easing: "easeOutQuad",
+        dur: 1000,
+        delay: 2500
+      });
+      document.querySelector("#animatedText2").setAttribute("animation", {
+        property: "position",
+        to: "1 -0.5 0.2",
+        easing: "easeOutQuad",
+        dur: 1000,
+        delay: 3000
+      });
+      document.querySelector("#animatedText3").setAttribute("animation", {
+        property: "position",
+        to: "0 -1 0",
+        easing: "easeOutQuad",
+        dur: 1000,
+        delay: 3500
+      });
+    });
+
+    this.el.addEventListener('targetLost', () => {
+      // Reset video and element positions when target is lost
+      document.querySelector("#animatedVideo").setAttribute("position", "-10 0.5 0");
+      document.querySelector("#animatedImage").setAttribute("position", "-10 -0.7 0");
+      document.querySelector("#animatedButton1").setAttribute("position", "-10 -0.5 0.1");
+      document.querySelector("#animatedButton2").setAttribute("position", "-10 -1 0.1");
+      document.querySelector("#animatedText1").setAttribute("position", "-10 1 0");
+      document.querySelector("#animatedText2").setAttribute("position", "-10 -0.5 0.2");
+      document.querySelector("#animatedText3").setAttribute("position", "-10 -1 0");
+    });
+  }
+});
       
 
       AFRAME.registerComponent('play-video-audio-on-click', {
@@ -96,6 +152,8 @@
       });
     }
   });
+
+  
 
     
 
