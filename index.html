@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: ./targets 5.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene mindar-image="imageTargetSrc: ./targetsh.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
         <a-asset-item id="customModel" src="./Bunny.glb"></a-asset-item>
         <a-asset-item id="spam" src="./spam.glb"></a-asset-item>
@@ -30,7 +30,7 @@
       </a-entity>
 
 <!-- New media setup for targetIndex: 1 with animations and clickable buttons -->
-<a-entity mindar-image-target="targetIndex: 1" id="videoTarget" animation-trigger>
+<a-entity mindar-image-target="targetIndex: 3" id="videoTarget" animation-trigger>
   <a-video id="animatedVideo" src="#portfolioVideo" position="-10 0.5 0" rotation="0 0 0" scale="1 0.5 1" muted autoplay></a-video>
 
   <!-- animatedImage with animation component but autoplay disabled -->
@@ -49,7 +49,7 @@
   <a-text id="animatedText3" value="ウェブサイト" color="#FFFFFF" position="-10 -1 0" align="center"></a-text>
 </a-entity>
 
-      <a-entity mindar-image-target="targetIndex: 2">
+      <a-entity mindar-image-target="targetIndex: 1">
         <a-gltf-model src="#spam" position="0 0 0" scale="0.5 0.5 0.5" rotation="0 180 180"></a-gltf-model>
       </a-entity>
     </a-scene>
